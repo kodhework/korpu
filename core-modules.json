@@ -1,0 +1,11 @@
+{
+	"org":{
+		"voxsoftware":{
+			"Korpu":{
+				"Http":{
+					"readPath": "./src"
+				}
+			}
+		}
+	}
+}

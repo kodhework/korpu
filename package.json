@@ -1,0 +1,11 @@
+{
+  "name": "proxy",
+  "version": "0.1.0",
+  "description": "Proxy hecho en vox-core altamente configurable y extendible",
+  "main": "main",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Suárez <xtreme.maicolxt94@gmail.com>",
+  "license": "CC-BY-SA-4.0"
+}
