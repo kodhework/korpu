@@ -157,7 +157,7 @@ La función recibe un solo parámetro. Este parámetro es un objeto que contiene
 
 ### License
 
-[Creative Commons share alike 4.0](/LICENSE)
+[Creative Commons Attribution-ShareAlike 4.0 International](/LICENSE)
 
 
 
