@@ -24,6 +24,12 @@ Luego utilice la línea de comandos de vox-core para instalar korpu:
 > korpu 
 ```
 
+
+### Historial de cambios
+
+[Lista de cambios](/CHANGES.md)
+
+
 ### Limitaciones
 
 Por ahora use *korpu* con precaución. Actualmente solo soporta protocolo no seguro http. No soporta tampoco *websockets*

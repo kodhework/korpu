@@ -74,8 +74,12 @@ class CommandLine{
 
 	static async start(options){
 		Cli.prompt()
+		var retry=3, er
+		var config, proxy, server
+
 		try{
-			var config, proxy, server
+
+			
 			if(!options.config){
 				config= v.Server.defaultConfig
 			}
@@ -83,14 +87,39 @@ class CommandLine{
 				options.config= Path.normalize(options.config)
 				config= new v.Config(options.config)
 			}
-			
-			server= new v.Server(config)
-			proxy= new v.Proxy(server)
-			await server.init()
+
+
+			while(retry>=0){				
+				er= undefined 			
+				try{
+
+					server= new v.Server(config)
+					proxy= new v.Proxy(server)
+					await server.init(true)
+					retry=-1
+				}
+				catch(e){
+					// Reintenta de nuevo ...
+					er= e
+					retry--
+				}
+
+				if(retry>=0){
+					core.VW.Console.writeLine("El proxy ha fallado en abrir, retrasando 5 segundos para intentar abrir el proxy nuevamente...")
+					await  core.VW.Task.sleep(5000)
+				}
+			}
 
 		}
 		catch(e){
-			Cli.error(e)
+			er=e
+		}
+
+		if(er){
+			if(server && server.console)
+				server.console.error(er)
+			else
+				Cli.error(er)
 		}
 	}
 	

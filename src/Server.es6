@@ -46,7 +46,7 @@ class Server extends EventEmitter{
 		return this.$server
 	}
 
-	async init(){
+	async init(throwOnError){
 
 		var c=this.console
 
@@ -72,6 +72,8 @@ class Server extends EventEmitter{
 			}
 		}
 		catch(e){
+			if(throwOnError)
+				throw e
 			this.console.error(e)
 		}
 	}

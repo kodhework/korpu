@@ -9,12 +9,21 @@ class AutoResponderList{
 	}
 
 	match(url){
-		var i, responder, responders=[],res=this.config.autoresponder
+		var i, responder, responders=[],res=this.config.autoresponder, matchs
 		if(res){
 			for(i=0;i<res.length;i++){
 				responder= res[i]
-				if(responder.active!==false && responder.match.test(url)){
-					responders.push(this.get(i))
+				if(responder.active!==false){
+					matchs= responder.match
+					if(!(matchs instanceof Array)){
+						matchs=[matchs]
+					}
+					for(var y=0;y<matchs.length;y++){
+						if(matchs[y].test(url)){
+							responders.push(this.get(i))
+							break
+						}
+					}
 				}
 			}
 		}

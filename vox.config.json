@@ -1,0 +1,15 @@
+{
+    "bin":{
+        "korpu": {
+			"onstart":true,
+			"staronfinish":true,
+            "menudir": "VoxSoftware",
+            "categories": ["Programming", "Network", "Application"],
+            "name": "Korpu",
+            "id": "org.voxsoftware.korpu",
+            "comment": "Proxy configurable con interfaz cli",
+            "mimetype": [],
+            "exec":"cli"
+        }
+    }
+}
