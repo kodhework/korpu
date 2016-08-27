@@ -108,7 +108,7 @@ Analicemos la parte que nos interesa. Para configurar un autoresponder debemos c
 
 **code**: (Opcional) Es código de *EcmaScript 6*. Debe exportar como default una función encargada de manejar la solicitud. En *Javascript* normal, o *EcmaScript 5* el código del ejemplo sería equivalente a colocar:
 
-```bash
+```javascript
 exports.default= function(ev){
     ev.request.response.write('Hello world');
     ev.request.response.end();
