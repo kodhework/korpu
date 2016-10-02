@@ -1,6 +1,6 @@
 {
   "name": "korpu",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Proxy hecho en vox-core altamente configurable y extendible",
   "main": "main",
   "scripts": {

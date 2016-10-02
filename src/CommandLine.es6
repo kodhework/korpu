@@ -85,7 +85,7 @@ class CommandLine{
 			}
 			else{
 				options.config= Path.normalize(options.config)
-				config= new v.Config(options.config)
+				config= new v.Configuration(options.config)
 			}
 
 
@@ -106,7 +106,7 @@ class CommandLine{
 
 				if(retry>=0){
 					core.VW.Console.writeLine("El proxy ha fallado en abrir, retrasando 5 segundos para intentar abrir el proxy nuevamente...")
-					await  core.VW.Task.sleep(5000)
+					//await  core.VW.Task.sleep(5000)
 				}
 			}
 
