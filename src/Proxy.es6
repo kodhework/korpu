@@ -86,6 +86,7 @@ class Proxy{
 
 		var self= this
 		var request= new core.VW.Http.Request(req.request.url)
+		//request.proxy= null
 		for(var id in req.request.headers){
 			request.headers[id]= req.request.headers[id]
 		}

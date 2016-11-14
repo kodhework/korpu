@@ -210,7 +210,7 @@ class Informer{
 
 		var reg= {
 			id: args.id,
-			protocol: "http",
+			protocol: args.request.protocol,
 			host: args.request.header.host,
 			url: args.request.url,
 			start: new Date(),

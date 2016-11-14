@@ -55,7 +55,7 @@ class HttpsServer extends v.Server{
 	}
 
 
-	async init(throwOnError){
+	async init(throwOnError, port){
 		var c=this.console
 		try{
 			// Inicia el servidor ...
@@ -68,7 +68,7 @@ class HttpsServer extends v.Server{
 			*/
 			this.$server= server
 			server.timeout=this.config.timeout
-			server.port= 0 // Esto es dinámico ...
+			server.port= port | 0 // Esto es dinámico ...
 			//server.path= __dirname 
 			server.useBodyParser= false
 			

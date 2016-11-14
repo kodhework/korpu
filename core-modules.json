@@ -4,6 +4,9 @@
 			"Korpu":{
 				"Http":{
 					"readPath": "./src"
+				},
+				"Extensions":{
+					"readPath": "./src/Extensions"	
 				}
 			}
 		}

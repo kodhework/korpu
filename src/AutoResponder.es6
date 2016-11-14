@@ -1,5 +1,6 @@
 import {Module} from 'module'
 var v= core.org.voxsoftware.Korpu.Http
+import Path from 'path'
 class AutoResponder{
 	constructor(Proxy, config, json){
 		this.proxy= Proxy
@@ -25,11 +26,13 @@ class AutoResponder{
 		return this.json.code
 	}
 
+
 	get require(){
 		return this.json.require
 	}
 
 	compile(){
+		var p,mod
 		if(!this.module){
 
 			if(this.code){
@@ -40,7 +43,24 @@ class AutoResponder{
 				this.module= this.module.exports
 			}
 			else if(this.require){
-				this.module= require(this.require)
+				if(this.require.indexOf(":")){
+					p=this.require.split(":")
+
+					if(p[0]=="korpu")
+						p[0]= Path.normalize(Path.join(__dirname, ".."))
+					mod= p[0]+"/korpu-extensions"
+
+					this.module= require(mod)
+
+					if(this.module.default)
+						this.module= this.module.default
+
+
+					this.module= this.module.getExtension(p[1])
+					
+				}
+				else
+					this.module= require(this.require)
 			}
 
 		}

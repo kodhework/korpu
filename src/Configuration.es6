@@ -70,6 +70,10 @@ class Configuration{
 		return this.$.autoresponder
 	}
 
+	get useHttps(){
+		return this.$.usehttps
+	}
+
 
 	get httpsHandle(){
 		return this.$.httpsHandle

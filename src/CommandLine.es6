@@ -32,6 +32,7 @@ class CommandLine{
 		var Command=new  core.VW.CommandLine.Parser()
 		Command.addParameter("start", true, null)
 		Command.addParameter("help")
+		Command.addParameter("monitor")
 		try{
 			Command.parse()
 			var options= Command.getAsOptionsObject()
@@ -67,8 +68,44 @@ class CommandLine{
 	static get commands(){
 		return {
 			"-help": "Mostrar ayuda", 
-			"-start": "Iniciar proxy. No es necesario colocar este comando"
+			"-start": "Iniciar proxy. No es necesario colocar este comando",
+			"-monitor": "Abrir proxy como un subproceso monitoreado que se reinicia si se llega a caer"
 		}
+	}
+
+
+
+	static openChild(){
+
+		//vw.log("Process: ",process)
+		var args=[]
+		var program= process.argv[0]
+
+		for(var i=1;i<process.argv.length;i++){
+			if(process.argv[i]!="-monitor")
+				args.push(process.argv[i])
+		}
+
+
+		vw.warning("Abriendo proceso monitoreado: ")
+		var p= Cp.spawn(program,args, {
+			stdio:'inherit'
+		})
+
+		p.on("error", function(e){
+			Cli.error(new core.System.Exception("El proceso hijo ha fallado. " + e.toString(), e))
+
+		})
+
+
+		p.on("exit", function(){
+
+			Cli.error(new core.System.Exception("El proceso hijo ha finalizado. Se intentará abrir otro"))
+			Cli.openChild()
+
+		})
+
+
 	}
 
 
@@ -79,7 +116,10 @@ class CommandLine{
 
 		try{
 
-			
+			if(options.monitor)
+				return Cli.openChild()
+
+
 			if(!options.config){
 				config= v.Server.defaultConfig
 			}
@@ -93,8 +133,8 @@ class CommandLine{
 				er= undefined 			
 				try{
 
-					server= new v.Server(config)
-					proxy= new v.Proxy(server)
+					server= new v.TcpServer(config)
+					proxy= new v.Proxy(server.httpServer)
 					await server.init(true)
 					retry=-1
 				}
@@ -106,7 +146,7 @@ class CommandLine{
 
 				if(retry>=0){
 					core.VW.Console.writeLine("El proxy ha fallado en abrir, retrasando 5 segundos para intentar abrir el proxy nuevamente...")
-					//await  core.VW.Task.sleep(5000)
+					await  core.VW.Task.sleep(5000)
 				}
 			}
 

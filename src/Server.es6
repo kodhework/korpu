@@ -7,11 +7,12 @@ var fsSync= core.System.IO.Fs.sync
 
 class Server extends EventEmitter{
 	
-	constructor(config){
+	constructor(config, tcp){
 		this.id=0
 		if(!config)
 			throw new core.System.ArgumentException("Debe especificar el parámetro config")
 		this.config= config
+		this.$tcpServer= tcp
 	}
 
 	static get defaultConfig(){
@@ -63,13 +64,14 @@ class Server extends EventEmitter{
 			*/
 			this.$server= server
 			server.timeout=this.config.timeout
-			server.port= this.config.port
+			server.port= this.$tcpServer?0: this.config.port
 			server.path= __dirname 
 			server.useBodyParser= false
+			this.initServer()
 			this.emit("init")
 			await server.listen()
 
-			this.initServer()
+			
 			this.initHttps()
 			this.emit("listen")
 			//this.console.log("Proxy disponible: 127.0.0.1:", server.port)
@@ -286,6 +288,8 @@ class Server extends EventEmitter{
 	initHttps(){
 
 		var self= this
+
+
 		this.server.innerServer.on("connect", this.connectHandler.bind(this))
 
 		
@@ -382,12 +386,9 @@ class Server extends EventEmitter{
 	initServer(){
 		var router= this.server.router, self= this
 		
-
-		
-
-		
 		router.use("/api", function(args){
 			self.captureRequest(args)
+
 			if(!args.capture)
 				return args.continue()
 
@@ -444,8 +445,21 @@ class Server extends EventEmitter{
 		req.id= id
 		
 		try{
+
+			var h
+			//vw.info(req.request.headers, req.request.protocol)			
+			if(req.request.url.startsWith("/")){
+				if(req.request.headers.host){
+					h= req.request.headers.host.split(":")
+					//vw.log(h, this.server.port)
+					if(["127.0.0.1","localhost"].indexOf(h[0])<0 || (h[1]|0) != this.config.port)
+						req.request.url= req.request.protocol + "://" + req.request.headers.host + req.request.url
+				}
+				
+			}
+			
 			req.request.url=req.request.url.trim()
-			this.console.request(req.request.method, req.request.url, " ID: ", id)
+			this.console.request("j+"+req.request.method, req.request.url, " ID: ", id)
 			await req.catch(req.continue)
 			this.console.info("Solicitud completa: ", id, " Tiempo: ", new Date()-time, "ms")
 		}
