@@ -32,6 +32,7 @@ class CommandLine{
 		var Command=new  core.VW.CommandLine.Parser()
 		Command.addParameter("start", true, null)
 		Command.addParameter("help")
+		Command.addParameter("config", true, null)
 		Command.addParameter("monitor")
 		try{
 			Command.parse()
