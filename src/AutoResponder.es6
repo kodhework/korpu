@@ -43,7 +43,7 @@ class AutoResponder{
 				this.module= this.module.exports
 			}
 			else if(this.require){
-				if(this.require.indexOf(":")){
+				if(this.require.indexOf(":")>=0){
 					p=this.require.split(":")
 
 					if(p[0]=="korpu")
