@@ -29,6 +29,11 @@ class Extensions{
 			return Ext.handle.bind(Ext)
 		}
 
+		else if(extension=="AUTOREFERER"){
+			Ext= new K.Extensions.AutoReferer()
+			return Ext.handle.bind(Ext)
+		}
+
 
 	}
 
