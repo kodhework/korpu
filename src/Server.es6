@@ -447,8 +447,11 @@ class Server extends EventEmitter{
 		try{
 
 			var h
-			//vw.info(req.request.headers, req.request.protocol)			
-			if(req.request.url.startsWith("/")){
+			//vw.info(req.request.headers, req.request.protocol)	
+			if(req.request.url.startsWith("/http://") || req.request.url.startsWith("/https://")){
+				req.request.url= req.request.url.substring(1)
+			}		
+			else if(req.request.url.startsWith("/")){
 				if(req.request.headers.host){
 					h= req.request.headers.host.split(":")
 					//vw.log(h, this.server.port)
