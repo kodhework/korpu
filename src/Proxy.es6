@@ -86,6 +86,10 @@ class Proxy{
 
 		var self= this
 		var request= new core.VW.Http.Request(req.request.url)
+		if(req.remakeHost){
+			// Proxy this ...
+			request.proxy= "http://127.0.0.1:" + this.$server.server.port
+		}
 		//request.proxy= null
 		for(var id in req.request.headers){
 			request.headers[id]= req.request.headers[id]

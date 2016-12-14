@@ -450,6 +450,7 @@ class Server extends EventEmitter{
 			//vw.info(req.request.headers, req.request.protocol)	
 			if(req.request.url.startsWith("/http://") || req.request.url.startsWith("/https://")){
 				req.request.url= req.request.url.substring(1)
+				req.remakeHost= true
 			}		
 			else if(req.request.url.startsWith("/")){
 				if(req.request.headers.host){
