@@ -1,6 +1,7 @@
 import Path from 'path'
 var v= core.org.voxsoftware.Korpu.Http
 var fsSync= core.System.IO.Fs.sync
+import Url from 'url'
 class Proxy{
 
 	
@@ -84,15 +85,20 @@ class Proxy{
 
 	getChannelRequest(req){
 
-		var self= this
+		var self= this, url1
 		var request= new core.VW.Http.Request(req.request.url)
-		if(req.remakeHost){
+		if(req.remakeHost)
+			url1= Url.parse(req.request.url.toString())
+		/*if(req.remakeHost){
 			// Proxy this ...
 			request.proxy= "http://127.0.0.1:" + this.$server.server.port
-		}
+		}*/
 		//request.proxy= null
 		for(var id in req.request.headers){
-			request.headers[id]= req.request.headers[id]
+			if(id.toLowerCase()=="host" && req.remakeHost)
+				request.headers[id]= url1.hostname
+			else
+				request.headers[id]= req.request.headers[id]
 		}
 		// Mandar el boy ...
 		req.channel= request
