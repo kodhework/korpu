@@ -32,9 +32,6 @@ class AutoReferer{
 			args.response.end()
 		}
 		
-
-		
-	
 	}
 
 

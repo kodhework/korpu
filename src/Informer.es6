@@ -255,11 +255,12 @@ class Informer{
 		})		
 		args.response.on("data", function(b){
 
+			vw.log(b.toString())
 			if(reg.end)
 				return 
 			
 			// Si la respuesta es máximo 1MB
-			if(len<=1*1024*2014){
+			if(len<=3*1024*2014){
 				len+= b.length
 				reg.buffer.push(b)
 			}
