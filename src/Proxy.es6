@@ -4,8 +4,8 @@ var fsSync= core.System.IO.Fs.sync
 import Url from 'url'
 class Proxy{
 
-	
-	
+
+
 	constructor(server){
 		this.$server= server
 		this.$server.$proxy= this
@@ -31,7 +31,7 @@ class Proxy{
 
 	get console(){
 		return this.$server.console
-	}	
+	}
 
 	get informer(){
 		return this.$server.informer
@@ -51,7 +51,7 @@ class Proxy{
 	async pass2(req){
 		var request= this.getChannelRequest(req)
 		request.beginGetResponse()
-		req.request.pipe(request.innerRequest) 
+		req.request.pipe(request.innerRequest)
 		request.innerRequest.pipe(req.response)
 		this.finalize(req)
 		await request.endGetResponse()
@@ -61,7 +61,7 @@ class Proxy{
 	pass2NoAwait(req){
 		var self= this,request= this.getChannelRequest(req)
 		request.beginGetResponse()
-		req.request.pipe(request.innerRequest) 
+		req.request.pipe(request.innerRequest)
 		request.innerRequest.on("error", function(e){
 			self.server.console.error(e)
 		})
@@ -102,7 +102,7 @@ class Proxy{
 		}
 		// Mandar el boy ...
 		req.channel= request
-		
+		request.analizeResponse= false
 		request.followRedirect= false
 		request.validateStatusCode= false
 		return request
@@ -123,9 +123,9 @@ class Proxy{
 		return this.addServer(this.server)
 	}
 
-	
 
 
-	
+
+
 }
 export default Proxy

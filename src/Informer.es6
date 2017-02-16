@@ -1,6 +1,6 @@
 import oUrl from 'url'
 class Informer{
-	
+
 	//sumo de uva y jarabe da vainilla al chocolate caliente
 	constructor(config){
 		this.config= config
@@ -46,7 +46,7 @@ class Informer{
 		var id= args.id, task
 		if(!id)
 			throw new core.System.ArgumentException("Debe especificar un id de cliente")
-		
+
 		task= args.task || new core.VW.Task()
 
 		var as, client= this.$clients[id]= this.$clients[id]||{}
@@ -88,7 +88,7 @@ class Informer{
 		var id= args.id, task
 		if(!id)
 			throw new core.System.ArgumentException("Debe especificar un id de cliente")
-		
+
 		task= args.task || new core.VW.Task()
 
 		var as, client= this.$clients[id]= this.$clients[id]||{}
@@ -129,7 +129,7 @@ class Informer{
 		var id= args.id, task
 		if(!id)
 			throw new core.System.ArgumentException("Debe especificar un id de cliente")
-		
+
 		task= args.task || new core.VW.Task()
 
 		var as, client= this.$clients[id]= this.$clients[id]||{}
@@ -168,21 +168,21 @@ class Informer{
 
 	finalizeRequest(args){
 		var reg={
-			"id": args.id, 
+			"id": args.id,
 			"buffer": []
 		}
 
 		var self= this
 		args.request.on("data", function(b){
 			if(reg.end)
-				return 
+				return
 			reg.buffer.push(b)
 		})
 
 		args.request.on("end", function(){
-			
+
 			if(reg.end)
-				return 
+				return
 
 			if(reg.buffer.length==0){
 				reg.buffer= undefined
@@ -190,7 +190,7 @@ class Informer{
 			}
 			reg.end= true
 			reg.body= Buffer.concat(reg.buffer)
-			reg.buffer= undefined 
+			reg.buffer= undefined
 			self.$reqsb.push(reg)
 
 			while(self.$reqsb.length>=self.limit){
@@ -204,7 +204,7 @@ class Informer{
 
 	request(args){
 		if(!this.validate(args))
-			return 
+			return
 
 
 
@@ -242,7 +242,7 @@ class Informer{
 	finalize(args){
 
 		if(!this.validate(args))
-			return 
+			return
 
 		var self= this, e, pipe
 		this.response(args)
@@ -252,13 +252,13 @@ class Informer{
 		args.response.emitWrite= true
 		args.response.on("headerssent", function(){
 			reg.headers= args.response.getHeaders()
-		})		
+		})
 		args.response.on("data", function(b){
 
-			vw.log(b.toString())
+			//vw.log(b.toString())
 			if(reg.end)
-				return 
-			
+				return
+
 			// Si la respuesta es máximo 1MB
 			if(len<=3*1024*2014){
 				len+= b.length
@@ -269,13 +269,13 @@ class Informer{
 			}
 		})
 		args.response.on("finish", function(){
-			
+
 			if(reg.end)
-				return 
+				return
 
 
 			reg.data= Buffer.concat(reg.buffer)
-			reg.buffer= undefined			
+			reg.buffer= undefined
 			reg.end= new Date()
 			self.$res.push(reg)
 			//vw.warning(reg)
